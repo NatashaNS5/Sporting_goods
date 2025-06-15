@@ -1,19 +1,10 @@
 ﻿using Sporting_goods.Data;
 using Sporting_goods.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-
 
 namespace Sporting_goods
 {
@@ -73,13 +64,7 @@ namespace Sporting_goods
             }
             else
             {
-                existingProduct.ProductName = Product.ProductName;
-                existingProduct.ProductStatus = Product.ProductStatus;
-                existingProduct.ProductCategory = Product.ProductCategory;
-                existingProduct.ProductCost = Product.ProductCost;
-                existingProduct.ProductQuantityInStock = Product.ProductQuantityInStock;
-                existingProduct.ProductSupplier = Product.ProductSupplier;
-                existingProduct.ProductDescription = Product.ProductDescription;
+                _context.Entry(existingProduct).CurrentValues.SetValues(Product);
             }
 
             _context.SaveChanges();
@@ -108,15 +93,16 @@ namespace Sporting_goods
                         return;
                     }
 
-                    Product.ProductPhoto = openFileDialog.FileName;
-
-                    MessageBox.Show("Изображение успешно добавлено.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                    string relativePath = Path.GetRelativePath(AppDomain.CurrentDomain.BaseDirectory, openFileDialog.FileName);
+                    Product.ProductPhoto = relativePath; 
 
                     var imageControl = this.FindName("ImageControlName") as Image;
                     if (imageControl != null)
                     {
-                        imageControl.Source = new BitmapImage(new Uri(Product.ProductPhoto));
+                        imageControl.Source = Product.ProductPhotoImage; 
                     }
+
+                    MessageBox.Show("Изображение успешно добавлено.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 catch (Exception ex)
                 {

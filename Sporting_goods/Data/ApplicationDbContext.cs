@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Sporting_goods.Data
 {
-   public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : DbContext
     {
         public DbSet<Order1> Orders { get; set; }
         public DbSet<PickupPoint> PickupPoints { get; set; }
@@ -24,6 +24,32 @@ namespace Sporting_goods.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Product>(entity =>
+            {
+                entity.ToTable("Product");
+                entity.Property(p => p.ProductPhoto)
+                      .HasColumnName("ProductPhoto") 
+                      .HasColumnType("nvarchar(500)") 
+                      .IsRequired(false); 
+            });
+
+            modelBuilder.Entity<OrderProduct>(entity =>
+            {
+                entity.HasKey(op => new { op.OrderID, op.ProductArticleNumber });
+            });
+
+            modelBuilder.Entity<PickupPoint>(entity =>
+            {
+                entity.Property(e => e.IDPick_upPoint)
+                      .HasColumnName("IDPick-upPoint");
+            });
+
+            modelBuilder.Entity<Order1>()
+                .HasOne(o => o.PickupPoint)
+                .WithMany(p => p.Orders)
+                .HasForeignKey(o => o.OrderPickupPoint)
+                .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<OrderProduct>()
                 .HasOne(op => op.Order)
                 .WithMany(o => o.OrderProducts)
@@ -36,15 +62,9 @@ namespace Sporting_goods.Data
                 .HasForeignKey(op => op.ProductArticleNumber)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Order1>()
-                .HasOne(o => o.PickupPoint)
-                .WithMany()
-                .HasForeignKey(o => o.OrderPickupPoint)
-                .OnDelete(DeleteBehavior.Restrict);
-
             modelBuilder.Entity<User>()
                 .HasOne(u => u.Role)
-                .WithMany()
+                .WithMany(r => r.Users)
                 .HasForeignKey(u => u.UserRole)
                 .OnDelete(DeleteBehavior.Restrict);
         }
