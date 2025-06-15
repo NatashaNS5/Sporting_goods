@@ -30,9 +30,9 @@ namespace Sporting_goods
                 DialogResult = true;
                 Close();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show($"Произошла ошибка при сохранении: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Произошла ошибка при сохранении.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -90,20 +90,28 @@ namespace Sporting_goods
                         return;
                     }
 
-                    string relativePath = Path.GetRelativePath(AppDomain.CurrentDomain.BaseDirectory, openFileDialog.FileName);
-                    Product.ProductPhoto = relativePath; 
+                    string projectRoot = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
+                    string imagesFolder = Path.Combine(projectRoot, "images");
+
+                    string fileName = $"{Guid.NewGuid()}{Path.GetExtension(openFileDialog.FileName)}";
+                    string destinationPath = Path.Combine(imagesFolder, fileName);
+
+                    File.Copy(openFileDialog.FileName, destinationPath, true);
+
+                    string relativePath = Path.Combine("images", fileName).Replace("\\", "/"); 
+                    Product.ProductPhoto = relativePath;
 
                     var imageControl = this.FindName("ImageControlName") as Image;
                     if (imageControl != null)
                     {
-                        imageControl.Source = Product.ProductPhotoImage; 
+                        imageControl.Source = new BitmapImage(new Uri(destinationPath));
                     }
 
                     MessageBox.Show("Изображение успешно добавлено.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    MessageBox.Show($"Произошла ошибка при загрузке изображения: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Произошла ошибка при загрузке изображения.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }

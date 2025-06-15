@@ -105,9 +105,9 @@ namespace Sporting_goods
                     HandleFailedLogin();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show($"Ошибка авторизации: {ex.Message}\nПодробности: {ex.StackTrace}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Произошла ошибка при авторизации. Попробуйте снова.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -187,7 +187,7 @@ namespace Sporting_goods
 
         private void NavigateToGoods_Click(object sender, RoutedEventArgs e)
         {
-            var goods = new Goods(null); 
+            var goods = new Goods(null);
             goods.Show();
             Close();
         }

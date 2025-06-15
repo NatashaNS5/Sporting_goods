@@ -20,9 +20,9 @@ namespace Sporting_goods
     {
         private readonly ApplicationDbContext _context;
         private List<Product> _cartItems = new List<Product>();
-        private string _userFullName; 
+        private string _userFullName;
 
-        public Goods(string userFullName = null) 
+        public Goods(string userFullName = null)
         {
             InitializeComponent();
             _context = new ApplicationDbContext();
@@ -48,9 +48,9 @@ namespace Sporting_goods
 
                 UpdateRecordCount(allProducts.Count, _context.Products.Count());
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show($"Ошибка загрузки данных: {ex.Message}\nПодробности: {ex.StackTrace}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Произошла ошибка при загрузке данных.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -84,9 +84,9 @@ namespace Sporting_goods
 
                 UpdateRecordCount(filteredProducts.Count, _context.Products.Count());
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show($"Ошибка поиска: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Произошла ошибка при поиске.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -145,9 +145,9 @@ namespace Sporting_goods
                 DGproduct.ItemsSource = filteredProducts;
                 UpdateRecordCount(filteredProducts.Count, _context.Products.Count());
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show($"Ошибка при фильтрации: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Произошла ошибка при фильтрации.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -190,9 +190,9 @@ namespace Sporting_goods
                 DGproduct.ItemsSource = sortedProducts;
                 UpdateRecordCount(sortedProducts.Count, _context.Products.Count());
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show($"Ошибка при сортировке: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Произошла ошибка при сортировке.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -204,9 +204,9 @@ namespace Sporting_goods
                 DGproduct.ItemsSource = sortedProducts;
                 UpdateRecordCount(sortedProducts.Count, _context.Products.Count());
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show($"Ошибка при сортировке: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Произошла ошибка при сортировке.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -238,7 +238,7 @@ namespace Sporting_goods
                         }
                     }
                 }
-                var cartButton = this.FindName("cartButton") as Button; 
+                var cartButton = this.FindName("cartButton") as Button;
                 if (cartButton != null)
                 {
                     cartButton.IsEnabled = false;
