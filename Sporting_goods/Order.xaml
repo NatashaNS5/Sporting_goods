@@ -48,7 +48,7 @@
             <Label Content="Выберите пункт выдачи:" FontSize="14" Foreground="#FF498C51" FontFamily="Comic Sans MS" Margin="0,10,0,5" />
             <ComboBox x:Name="pickupPointComboBox" Margin="0,0,0,10" FontSize="14" Width="234" Height="30" 
           SelectionChanged="PickupPointComboBox_SelectionChanged" FontFamily="Comic Sans MS" 
-          ItemsSource="{Binding PickupPoints}" DisplayMemberPath="Name" />
+          ItemsSource="{Binding PickupPoints}" DisplayMemberPath="Address" />
             <Label Content="Выберите способ оплаты:" FontSize="14" Foreground="#FF498C51" FontFamily="Comic Sans MS" Margin="0,10,0,5" />
             <ComboBox x:Name="paymentMethodComboBox" Margin="0,0,0,10" FontSize="14" Width="234" Height="30" SelectionChanged="PaymentMethodComboBox_SelectionChanged" FontFamily="Comic Sans MS">
                 <ComboBox.Items>
