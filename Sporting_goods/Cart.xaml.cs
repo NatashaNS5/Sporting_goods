@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace Sporting_goods
 {
-    /// <summary>
-    /// Логика взаимодействия для Cart.xaml
-    /// </summary>
     public partial class Cart : Window
     {
         private List<Product> _cartItems;

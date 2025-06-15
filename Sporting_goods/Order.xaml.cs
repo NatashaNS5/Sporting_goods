@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace Sporting_goods
 {
-    /// <summary>
-    /// Логика взаимодействия для Order.xaml
-    /// </summary>
     public partial class Order : Window
     {
         public Product Product { get; private set; }

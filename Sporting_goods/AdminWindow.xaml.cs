@@ -17,9 +17,6 @@ using System.Windows.Shapes;
 
 namespace Sporting_goods
 {
-    /// <summary>
-    /// Логика взаимодействия для AdminWindow.xaml
-    /// </summary>
     public partial class AdminWindow : Window
     {
         private readonly ApplicationDbContext _context;

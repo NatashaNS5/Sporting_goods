@@ -33,6 +33,11 @@ namespace Sporting_goods.Data
                       .IsRequired(false); 
             });
 
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.ToTable("User");
+            });
+
             modelBuilder.Entity<OrderProduct>(entity =>
             {
                 entity.HasKey(op => new { op.OrderID, op.ProductArticleNumber });

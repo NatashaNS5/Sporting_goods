@@ -17,9 +17,6 @@ using System.Windows.Shapes;
 
 namespace Sporting_goods
 {
-    /// <summary>
-    /// Логика взаимодействия для ClientWindow.xaml
-    /// </summary>
     public partial class ClientWindow : Window
     {
         private readonly ApplicationDbContext _context;

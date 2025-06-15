@@ -8,9 +8,6 @@ using System.Windows.Media.Imaging;
 
 namespace Sporting_goods
 {
-    /// <summary>
-    /// Логика взаимодействия для AddOrEdit.xaml
-    /// </summary>
     public partial class AddOrEdit : Window
     {
         public Product Product { get; private set; }

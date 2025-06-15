@@ -12,9 +12,6 @@ using System.Windows.Shapes;
 
 namespace Sporting_goods
 {
-    /// <summary>
-    /// Interaction logic for Login.xaml
-    /// </summary>
     public partial class Login : Window
     {
         private int failedAttempts = 0;
@@ -74,36 +71,43 @@ namespace Sporting_goods
                 }
             }
 
-            var user = _context.Users.FirstOrDefault(u => u.UserLogin == login && u.UserPassword == password);
-
-            if (user != null)
+            try
             {
-                MessageBox.Show($"Добро пожаловать, {user.UserSurname} {user.UserName} {user.UserPatronymic}!");
+                var user = _context.Users.FirstOrDefault(u => u.UserLogin == login && u.UserPassword == password);
 
-                string fullName = $"{user.UserSurname} {user.UserName} {user.UserPatronymic}";
-                int roleId = user.UserRole ?? 0;
-
-                switch (roleId)
+                if (user != null)
                 {
-                    case 1:
-                        var adminWindow = new AdminWindow(fullName);
-                        adminWindow.Show();
-                        break;
-                    case 2:
-                        var managerWindow = new ManagerWindow(fullName);
-                        managerWindow.Show();
-                        break;
-                    case 3:
-                        var clientWindow = new ClientWindow(fullName);
-                        clientWindow.Show();
-                        break;
-                }
+                    MessageBox.Show($"Добро пожаловать, {user.UserSurname} {user.UserName} {user.UserPatronymic}!");
 
-                this.Close();
+                    string fullName = $"{user.UserSurname} {user.UserName} {user.UserPatronymic}";
+                    int roleId = user.UserRole ?? 0;
+
+                    switch (roleId)
+                    {
+                        case 1:
+                            var adminWindow = new AdminWindow(fullName);
+                            adminWindow.Show();
+                            break;
+                        case 2:
+                            var managerWindow = new ManagerWindow(fullName);
+                            managerWindow.Show();
+                            break;
+                        case 3:
+                            var clientWindow = new ClientWindow(fullName);
+                            clientWindow.Show();
+                            break;
+                    }
+
+                    this.Close();
+                }
+                else
+                {
+                    HandleFailedLogin();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                HandleFailedLogin();
+                MessageBox.Show($"Ошибка авторизации: {ex.Message}\nПодробности: {ex.StackTrace}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
