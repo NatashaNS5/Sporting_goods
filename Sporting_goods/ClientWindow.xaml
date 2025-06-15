@@ -1,0 +1,198 @@
+﻿<Window x:Class="Sporting_goods.ClientWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Sporting_goods"
+        mc:Ignorable="d"
+              Title="ClientWindow" Height="600" Width="800" MinHeight="600" MinWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="176.04" />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" MinHeight="50" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Margin="100,100,100,57" Grid.Row="0">
+            <TextBlock x:Name="RecordCountText" FontSize="14" FontWeight="Bold" Foreground="#FF498C51" FontFamily="Comic Sans MS"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="10,124,10,0">
+            <TextBox x:Name="SearchBox" Width="300" Height="30" Margin="0,0,10,0" FontSize="14" Text="Введите запрос для поиска" Foreground="Gray" GotFocus="SearchBox_GotFocus" LostFocus="SearchBox_LostFocus" FontFamily="Comic Sans MS"/>
+            <Button Content="Поиск" Width="100" Height="30" Click="SearchButton_Click"  Background="#FF498C51" Foreground="#FF020000" FontFamily="Comic Sans MS">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border Background="{TemplateBinding Background}" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button Content="Сброс" Width="100" Height="30" Click="ResetSearchButton_Click"  Background="#FF498C51" Foreground="Black" Margin="10,0,0,0" FontFamily="Comic Sans MS">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border Background="{TemplateBinding Background}" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button Content="Корзина" Click="OpenCart_Click" Background="#FF498C51" Foreground="#FF020000" HorizontalAlignment="Right" Margin="10" >
+                <Button.Resources>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border Background="{TemplateBinding Background}" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <TextBlock x:Name="UserFullNameText" FontSize="16" FontWeight="Bold" Foreground="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="500,10,20,0" Text="ФИО пользователя" />
+        </StackPanel>
+
+        <DataGrid x:Name="DGproduct" AutoGenerateColumns="False" IsReadOnly="True" Margin="10" Grid.Row="3" RowHeight="150" ColumnWidth="*">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Фото" Width="120">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding ProductPhoto}" Width="100" Height="100" Stretch="Uniform" Margin="5" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Описание" Width="600">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical" Margin="5">
+                                <TextBlock Text="{Binding ProductName}" FontWeight="Bold" FontSize="14" FontFamily="Comic Sans MS"/>
+                                <TextBlock Text="{Binding ProductDescription}" FontSize="12" TextWrapping="Wrap" FontFamily="Comic Sans MS"/>
+                                <TextBlock Text="{Binding ProductManufacturer}" FontSize="12" Foreground="Gray" FontFamily="Comic Sans MS"/>
+                                <TextBlock Text="{Binding ProductCost, StringFormat={}{0:N2} ₽}" FontSize="14" Foreground="#FF498C51" FontFamily="Comic Sans MS" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Наличие" Width="150">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ProductStatus}" Foreground="#FF498C51" FontSize="14" HorizontalAlignment="Center" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="" Width="150">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Заказать" Name="ButtonOrder" Click="ButtonOrder_Click" FontFamily="Comic Sans MS" Background="#FF498C51" Foreground="White"  Margin="5" Padding="10">
+                                <Button.Resources>
+                                    <Style TargetType="{x:Type Button}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type Button}">
+                                                    <Border Background="{TemplateBinding Background}" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Border BorderBrush="#FF76E383" Background="#FF76E383" BorderThickness="1" HorizontalAlignment="Center" Height="86" VerticalAlignment="Top" Width="2624" />
+        <Image HorizontalAlignment="Left" Height="70" Margin="10,10,0,0" VerticalAlignment="Top" Width="63" Source="/images/logo.png" />
+        <Button Content="Посмотреть товары" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="16" BorderBrush="White" Background="White" FontFamily="Comic Sans MS" Margin="0,30,0,0"  Click="CurrentTabWarning_Click" Height="26" Width="156" />
+        <Button Content="Назад" HorizontalAlignment="Right" Margin="0,30,10,0" VerticalAlignment="Top" FontSize="16"  FontFamily="Comic Sans MS" Background="#FF498C51" Click="NavigateToLogin_Click" Height="24" Width="47">
+            <Button.Resources>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <StackPanel Orientation="Horizontal" Margin="10,5,10,0" Grid.Row="2">
+            <ComboBox x:Name="SupplierComboBox" Width="300" Height="30" Margin="0,0,10,0" FontSize="14" FontFamily="Comic Sans MS">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontSize="14" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button Content="Применить фильтр" Width="150" Height="30" Click="FilterBySupplierButton_Click" Background="#FF498C51" Foreground="Black" FontFamily="Comic Sans MS">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border Background="{TemplateBinding Background}" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Resources>
+            </Button>
+
+            <Button Content="Сортировать по возрастанию" Width="200" Height="30" Margin="5,0,5,0" Click="SortByPriceAscending_Click" Background="#FF498C51" Foreground="Black" FontFamily="Comic Sans MS">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border Background="{TemplateBinding Background}" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button Content="Сортировать по убыванию" Width="200" Height="30" Margin="5,0,0,0" Click="SortByPriceDescending_Click" Background="#FF498C51" Foreground="Black" FontFamily="Comic Sans MS">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border Background="{TemplateBinding Background}" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>

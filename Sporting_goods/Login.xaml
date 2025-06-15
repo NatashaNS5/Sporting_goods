@@ -5,8 +5,38 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Sporting_goods"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+               Title="Login" Height="600" Width="800" MinHeight="600" MinWidth="800">
     <Grid>
-
+        <Label Content="Логин" HorizontalAlignment="Center" Margin="0,137,0,0" VerticalAlignment="Top" FontSize="24" FontFamily="Comic Sans MS" />
+        <TextBox x:Name="textBox" VerticalAlignment="Top" FontSize="14" TextChanged="TextBox_TextChanged" Margin="0,192,0,0" Height="30" BorderThickness="0,0,0,1" HorizontalAlignment="Center" Width="234">
+        </TextBox>
+        <TextBlock x:Name="watermark" Text="Введите почту" VerticalAlignment="Top" Foreground="#FF498C51" IsHitTestVisible="False" Margin="0,192,0,0" Height="25" HorizontalAlignment="Center" FontFamily="Comic Sans MS"/>
+        <PasswordBox x:Name="textBox1" VerticalAlignment="Top" FontSize="14" PasswordChanged="TextBox1_PasswordChanged" Margin="0,283,0,0" Height="30" BorderThickness="0,0,0,1" HorizontalAlignment="Center" Width="234" />
+        <TextBlock x:Name="watermark1" Text="Введите пароль" VerticalAlignment="Top" Foreground="#FF498C51" IsHitTestVisible="False" Margin="0,283,0,0" Height="25" HorizontalAlignment="Center" FontFamily="Comic Sans MS"/>
+        <Label Content="Пароль" HorizontalAlignment="Center" Margin="0,230,0,0" VerticalAlignment="Top" FontSize="24" FontFamily="Comic Sans MS" />
+        <Button Content="Войти" HorizontalAlignment="Center" Margin="0,356,0,0" VerticalAlignment="Top" FontSize="16" FontFamily="Comic Sans MS" Background="#FF498C51" Width="76" Click="LoginButton_Click">
+            <Button.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Border BorderBrush="#FF76E383" Background="#FF76E383" BorderThickness="1" HorizontalAlignment="Center" Height="86" VerticalAlignment="Top" Width="2685" />
+        <Image HorizontalAlignment="Left" Height="70" Margin="10,10,0,0" VerticalAlignment="Top" Width="63" Source="/images/logo.png" />
+        <Button Content="Посмотреть товары" HorizontalAlignment="Center" Margin="0,30,0,0" VerticalAlignment="Top" FontSize="16" BorderBrush="#FF76E383" Background="#FF76E383" FontFamily="Comic Sans MS" Click="NavigateToGoods_Click"/>
+        <StackPanel Margin="20" Visibility="Collapsed" Name="CaptchaPanel">
+            <TextBlock Text="Введите CAPTCHA:" Margin="0,380,0,5" FontFamily="Comic Sans MS"/>
+            <TextBox Name="CaptchaTextBox" FontFamily="Comic Sans MS" Height="30" />
+            <Canvas Name="CaptchaCanvas" Width="200" Height="60" Background="White" />
+            <Button Name="CaptchaRefreshButton" Content="Обновить CAPTCHA" FontFamily="Comic Sans MS" Background="#FF498C51" Click="CaptchaRefreshButton_Click" Width="150" Height="30" Margin="0,0,0,0" />
+        </StackPanel>
     </Grid>
-</Window>
+</Window> 
