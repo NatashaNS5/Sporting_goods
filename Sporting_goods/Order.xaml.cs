@@ -1,4 +1,5 @@
-﻿using Sporting_goods.Models;
+﻿using Sporting_goods.Data;
+using Sporting_goods.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,12 +19,44 @@ namespace Sporting_goods
     public partial class Order : Window
     {
         public Product Product { get; private set; }
+        private readonly ApplicationDbContext _context;
+        public List<PickupPoint> PickupPoints { get; set; } 
 
         public Order(Product product)
         {
             InitializeComponent();
             Product = product ?? new Product();
-            DataContext = Product;
+            _context = new ApplicationDbContext();
+            LoadPickupPoints();
+            DataContext = this;
+        }
+
+        private void LoadPickupPoints()
+        {
+            try
+            {
+                PickupPoints = _context.PickupPoints.ToList(); 
+                if (PickupPoints == null || !PickupPoints.Any())
+                {
+                    PickupPoints = new List<PickupPoint> { new PickupPoint { Address = "Нет доступных пунктов" } };
+                    MessageBox.Show("В таблице PickupPoint нет данных.", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    foreach (var point in PickupPoints)
+                    {
+                        Console.WriteLine($"Загружен пункт: Address={point.Address}, ID={point.IDPick_upPoint}, Index={point.Index}");
+                    }
+                    pickupPointComboBox.ItemsSource = null;
+                    pickupPointComboBox.ItemsSource = PickupPoints;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка загрузки пунктов выдачи: {ex.Message}\nПодробности: {ex.StackTrace}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                PickupPoints = new List<PickupPoint> { new PickupPoint { Address = "Ошибка загрузки" } };
+                pickupPointComboBox.ItemsSource = PickupPoints;
+            }
         }
 
         private void NavigateToLogin_Click(object sender, RoutedEventArgs e)
@@ -42,10 +75,11 @@ namespace Sporting_goods
 
         private void PlaceOrder_Click(object sender, RoutedEventArgs e)
         {
-            string selectedPickupPoint = pickupPointComboBox.SelectedItem is ComboBoxItem item1 ? item1.Content.ToString() : "не выбран";
+            string phoneNumber = textBox.Text.Trim();
+            string selectedPickupPoint = pickupPointComboBox.SelectedItem is PickupPoint pickup ? pickup.Address : "не выбран";
             string selectedPaymentMethod = paymentMethodComboBox.SelectedItem is ComboBoxItem item2 ? item2.Content.ToString() : "не выбран";
 
-            if (string.IsNullOrEmpty(textBox.Text))
+            if (string.IsNullOrEmpty(phoneNumber))
             {
                 MessageBox.Show("Введите номер телефона!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
@@ -57,8 +91,26 @@ namespace Sporting_goods
                 return;
             }
 
-            MessageBox.Show($"Заказ оформлен.\nПункт выдачи: {selectedPickupPoint}\nСпособ оплаты: {selectedPaymentMethod}\nНомер телефона: {textBox.Text}",
-                            "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
+            try
+            {
+                var newOrder = new Order1
+                {
+                    OrderStatus = "Новый",
+                    OrderDate = DateTime.Now,
+                    OrderDeliveryDate = DateTime.Now.AddDays(5), 
+                    OrderPickupPoint = (pickupPointComboBox.SelectedItem as PickupPoint)?.IDPick_upPoint ?? 0 
+                };
+
+                _context.Orders.Add(newOrder);
+                _context.SaveChanges();
+
+                MessageBox.Show($"Заказ оформлен.\nПункт выдачи: {selectedPickupPoint}\nСпособ оплаты: {selectedPaymentMethod}\nНомер телефона: {phoneNumber}\nOrderID: {newOrder.OrderID}",
+                                "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при сохранении заказа: {ex.Message}\nПодробности: {ex.StackTrace}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void CurrentTabWarning_Click(object sender, RoutedEventArgs e)
@@ -80,9 +132,9 @@ namespace Sporting_goods
 
         private void PickupPointComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (pickupPointComboBox.SelectedItem is ComboBoxItem selectedItem)
+            if (pickupPointComboBox.SelectedItem is PickupPoint selectedItem)
             {
-                MessageBox.Show($"Вы выбрали пункт выдачи: {selectedItem.Content}", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show($"Вы выбрали пункт выдачи: {selectedItem.Address}", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 

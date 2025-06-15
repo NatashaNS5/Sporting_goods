@@ -11,11 +11,11 @@ namespace Sporting_goods.Models
     public class PickupPoint
     {
         [Key]
-        public int IDPick_upPoint { get; set; } 
+        public int IDPick_upPoint { get; set; }
 
+        public int? Index { get; set; }
         public string Address { get; set; }
-        public string OrderStatus { get; set; }
 
-        public virtual ICollection<Order1> Orders { get; set; }
+        public virtual ICollection<Order1> Orders { get; set; } 
     }
 }

@@ -28,9 +28,9 @@ namespace Sporting_goods.Data
             {
                 entity.ToTable("Product");
                 entity.Property(p => p.ProductPhoto)
-                      .HasColumnName("ProductPhoto") 
-                      .HasColumnType("nvarchar(500)") 
-                      .IsRequired(false); 
+                      .HasColumnName("ProductPhoto")
+                      .HasColumnType("nvarchar(500)")
+                      .IsRequired(false);
             });
 
             modelBuilder.Entity<User>(entity =>
@@ -45,8 +45,30 @@ namespace Sporting_goods.Data
 
             modelBuilder.Entity<PickupPoint>(entity =>
             {
+                entity.ToTable("PickupPoint");
                 entity.Property(e => e.IDPick_upPoint)
                       .HasColumnName("IDPick-upPoint");
+                entity.Property(e => e.Index)
+                      .HasColumnName("Index");
+                entity.Property(e => e.Address)
+                      .HasColumnName("Address")
+                      .HasColumnType("nvarchar(100)")
+                      .IsRequired(false);
+            });
+
+            modelBuilder.Entity<Order1>(entity =>
+            {
+                entity.ToTable("Order1");
+                entity.Property(e => e.OrderID)
+                      .HasColumnName("OrderID");
+                entity.Property(e => e.OrderStatus)
+                      .HasColumnName("OrderStatus");
+                entity.Property(e => e.OrderDate)
+                      .HasColumnName("OrderDate");
+                entity.Property(e => e.OrderDeliveryDate)
+                      .HasColumnName("OrderDeliveryDate");
+                entity.Property(e => e.OrderPickupPoint)
+                      .HasColumnName("OrderPickupPoint");
             });
 
             modelBuilder.Entity<Order1>()
