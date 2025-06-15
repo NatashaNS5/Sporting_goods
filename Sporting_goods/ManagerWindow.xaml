@@ -87,7 +87,21 @@
 
         <Border BorderBrush="#FF76E383" Background="#FF76E383" BorderThickness="1" HorizontalAlignment="Center" Height="86" VerticalAlignment="Top" Width="2624" />
         <Image HorizontalAlignment="Left" Height="70" Margin="10,10,0,0" VerticalAlignment="Top" Width="63" Source="/images/logo.png" />
-        <Button Content="Посмотреть товары" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="16" BorderBrush="White" Background="White" FontFamily="Comic Sans MS" Margin="0,30,0,0" Click="CurrentTabWarning_Click" Height="26" Width="156" />
+        <Button Content="Посмотреть товары" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="16" BorderBrush="White" Background="White" FontFamily="Comic Sans MS" Margin="0,30,0,0" Click="CurrentTabWarning_Click" Height="26" Width="156">
+            <Button.Resources>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Resources>
+        </Button>
         <Button Content="Назад" HorizontalAlignment="Right" Margin="0,30,10,0" VerticalAlignment="Top" FontSize="16" FontFamily="Comic Sans MS" Background="#FF498C51" Click="NavigateToLogin_Click" Height="24" Width="47">
             <Button.Resources>
                 <Style TargetType="{x:Type Button}">

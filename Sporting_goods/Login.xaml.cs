@@ -187,7 +187,7 @@ namespace Sporting_goods
 
         private void NavigateToGoods_Click(object sender, RoutedEventArgs e)
         {
-            var goods = new Goods();
+            var goods = new Goods(null); 
             goods.Show();
             Close();
         }

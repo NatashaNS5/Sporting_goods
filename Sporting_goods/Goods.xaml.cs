@@ -20,12 +20,15 @@ namespace Sporting_goods
     {
         private readonly ApplicationDbContext _context;
         private List<Product> _cartItems = new List<Product>();
+        private string _userFullName; 
 
-        public Goods()
+        public Goods(string userFullName = null) 
         {
             InitializeComponent();
             _context = new ApplicationDbContext();
+            _userFullName = userFullName;
             LoadProducts();
+            UpdateButtonStates();
         }
 
         private void LoadProducts()
@@ -150,6 +153,12 @@ namespace Sporting_goods
 
         private void ButtonOrder_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(_userFullName))
+            {
+                MessageBox.Show("Для оформления заказа необходимо авторизоваться.", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
             var selectedProduct = DGproduct.SelectedItem as Product;
             if (selectedProduct == null)
             {
@@ -203,8 +212,56 @@ namespace Sporting_goods
 
         private void OpenCart_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(_userFullName))
+            {
+                MessageBox.Show("Для открытия корзины необходимо авторизоваться.", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
             var cartWindow = new Cart(_cartItems);
             cartWindow.ShowDialog();
+        }
+
+        private void UpdateButtonStates()
+        {
+            if (string.IsNullOrEmpty(_userFullName))
+            {
+                foreach (var item in DGproduct.Items)
+                {
+                    var row = DGproduct.ItemContainerGenerator.ContainerFromItem(item) as DataGridRow;
+                    if (row != null)
+                    {
+                        var button = FindVisualChild<Button>(row);
+                        if (button != null && button.Name == "ButtonOrder")
+                        {
+                            button.IsEnabled = false;
+                        }
+                    }
+                }
+                var cartButton = this.FindName("cartButton") as Button; 
+                if (cartButton != null)
+                {
+                    cartButton.IsEnabled = false;
+                }
+            }
+        }
+
+        private T FindVisualChild<T>(DependencyObject parent) where T : DependencyObject
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+                if (child is T typedChild)
+                {
+                    return typedChild;
+                }
+                var result = FindVisualChild<T>(child);
+                if (result != null)
+                {
+                    return result;
+                }
+            }
+            return null;
         }
     }
 }

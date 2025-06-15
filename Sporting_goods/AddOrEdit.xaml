@@ -10,7 +10,21 @@
         <Grid DockPanel.Dock="Top" Height="86" Background="#FF76E383">
             <Border BorderBrush="#FF76E383" Background="#FF76E383" BorderThickness="1" HorizontalAlignment="Center" Height="86" VerticalAlignment="Top" Width="2685" />
             <Image HorizontalAlignment="Left" Height="70" Margin="10,10,0,0" VerticalAlignment="Top" Width="63" Source="/images/logo.png" />
-            <Button Content="Добавить/редактировать" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="16" BorderBrush="White" Background="White" FontFamily="Comic Sans MS" Margin="0,29,0,0" Click="CurrentTabWarning_Click" />
+            <Button Content="Добавить/редактировать" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="16" BorderBrush="White" Background="White" FontFamily="Comic Sans MS" Margin="0,29,0,0" Click="CurrentTabWarning_Click">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border Background="{TemplateBinding Background}" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Resources>
+            </Button>
         </Grid>
 
         <ScrollViewer VerticalScrollBarVisibility="Auto">

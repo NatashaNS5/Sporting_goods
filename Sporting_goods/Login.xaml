@@ -31,7 +31,21 @@
         </Button>
         <Border BorderBrush="#FF76E383" Background="#FF76E383" BorderThickness="1" HorizontalAlignment="Center" Height="86" VerticalAlignment="Top" Width="2685" />
         <Image HorizontalAlignment="Left" Height="70" Margin="10,10,0,0" VerticalAlignment="Top" Width="63" Source="/images/logo.png" />
-        <Button Content="Посмотреть товары" HorizontalAlignment="Center" Margin="0,30,0,0" VerticalAlignment="Top" FontSize="16" BorderBrush="#FF76E383" Background="#FF76E383" FontFamily="Comic Sans MS" Click="NavigateToGoods_Click"/>
+        <Button Content="Посмотреть товары" HorizontalAlignment="Center" Margin="0,30,0,0" VerticalAlignment="Top" FontSize="16" BorderBrush="#FF76E383" Background="#FF76E383" FontFamily="Comic Sans MS" Click="NavigateToGoods_Click">
+            <Button.Resources>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Resources>
+        </Button>
         <StackPanel Margin="20" Visibility="Collapsed" Name="CaptchaPanel">
             <TextBlock Text="Введите CAPTCHA:" Margin="0,380,0,5" FontFamily="Comic Sans MS"/>
             <TextBox Name="CaptchaTextBox" FontFamily="Comic Sans MS" Height="30" />

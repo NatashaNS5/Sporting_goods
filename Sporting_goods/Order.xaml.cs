@@ -20,7 +20,7 @@ namespace Sporting_goods
     {
         public Product Product { get; private set; }
         private readonly ApplicationDbContext _context;
-        public List<PickupPoint> PickupPoints { get; set; } 
+        public List<PickupPoint> PickupPoints { get; set; }
 
         public Order(Product product)
         {
@@ -35,7 +35,7 @@ namespace Sporting_goods
         {
             try
             {
-                PickupPoints = _context.PickupPoints.ToList(); 
+                PickupPoints = _context.PickupPoints.ToList();
                 if (PickupPoints == null || !PickupPoints.Any())
                 {
                     PickupPoints = new List<PickupPoint> { new PickupPoint { Address = "Нет доступных пунктов" } };
@@ -85,6 +85,12 @@ namespace Sporting_goods
                 return;
             }
 
+            if (!IsValidPhoneNumber(phoneNumber))
+            {
+                MessageBox.Show("Номер телефона должен начинаться с '+' и содержать ровно 11 цифр (например, +71234567890).", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             if (selectedPickupPoint == "не выбран" || selectedPaymentMethod == "не выбран")
             {
                 MessageBox.Show("Выберите пункт выдачи и способ оплаты!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -97,8 +103,8 @@ namespace Sporting_goods
                 {
                     OrderStatus = "Новый",
                     OrderDate = DateTime.Now,
-                    OrderDeliveryDate = DateTime.Now.AddDays(5), 
-                    OrderPickupPoint = (pickupPointComboBox.SelectedItem as PickupPoint)?.IDPick_upPoint ?? 0 
+                    OrderDeliveryDate = DateTime.Now.AddDays(5),
+                    OrderPickupPoint = (pickupPointComboBox.SelectedItem as PickupPoint)?.IDPick_upPoint ?? 0
                 };
 
                 _context.Orders.Add(newOrder);
@@ -120,7 +126,8 @@ namespace Sporting_goods
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (!System.Text.RegularExpressions.Regex.IsMatch(textBox.Text, @"^\+?[78]\d{10}$"))
+            string phoneNumber = textBox.Text.Trim();
+            if (!IsValidPhoneNumber(phoneNumber))
             {
                 textBox.Foreground = Brushes.Red;
             }
@@ -144,6 +151,21 @@ namespace Sporting_goods
             {
                 MessageBox.Show($"Вы выбрали способ оплаты: {selectedItem.Content}", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
             }
+        }
+
+        private bool IsValidPhoneNumber(string phoneNumber)
+        {
+            if (string.IsNullOrEmpty(phoneNumber))
+                return false;
+
+            string cleanedNumber = new string(phoneNumber.Where(c => char.IsDigit(c) || c == '+').ToArray());
+
+            if (!cleanedNumber.StartsWith("+"))
+                return false;
+
+            string digitsOnly = cleanedNumber.Replace("+", "");
+
+            return digitsOnly.Length == 11;
         }
     }
 }
